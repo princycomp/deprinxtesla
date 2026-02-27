@@ -226,24 +226,21 @@ document.getElementById("loginForm").addEventListener("submit", async function (
             headers: {
                 "Content-Type": "application/json"
             },
+            credentials: "include",   // 🔥 VERY IMPORTANT
             body: JSON.stringify({ email, password })
         });
 
         const result = await response.json();
 
         if (response.ok) {
-            // Optionally store token if needed
-            localStorage.setItem("access_token", result.access_token);
-
-            // Redirect to dashboard
             window.location.href = "/dashboard";
         } else {
-            // Display error from backend, fallback to generic message
-            document.getElementById("error-msg").textContent = result.errors || "Login failed";
+            alert(result.message || "Login failed");
         }
+
     } catch (error) {
         console.error("Login error:", error);
-        document.getElementById("error-msg").textContent = "An error occurred. Please try again.";
+        alert("An error occurred. Please try again.");
     }
 });
 </script>
