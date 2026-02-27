@@ -21,9 +21,9 @@ app.config['SECRET_KEY'] = '8BYkdeEfBA6O6donzWlSihBXox7C0sKR6b'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'teslaproinvestmentsplatform1@gmail.com'
+app.config['MAIL_USERNAME'] = 'teslaproinvestmentplatform1@gmail.com'
 app.config['MAIL_PASSWORD'] = 'yvvpuxqpaaqtqsed'
-app.config['MAIL_DEFAULT_SENDER'] = 'teslaproinvestmentsplatform1@gmail.com'
+app.config['MAIL_DEFAULT_SENDER'] = 'teslaproinvestmentplatform1@gmail.com'
 app.config['JWT_SECRET_KEY'] = 'super-secret-jwt-key'
 
 MONGO_URI = 'mongodb+srv://pblmtechnologyinnovation:Ok6Wiu6HqTorLOSu@computercloud.99whnwd.mongodb.net/?retryWrites=true&w=majority'
