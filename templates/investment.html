@@ -1,29 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invest - Tesla Finance</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invest - Tesla Finance</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins',sans-serif;background:#f4f6f9;}
+
+/* ================= NAVBAR ================= */
+.navbar{height:70px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 25px;box-shadow:0 2px 8px rgba(0,0,0,0.05);position:fixed;width:100%;top:0;z-index:1000;}
+.nav-left{display:flex;align-items:center;gap:15px;}
+.nav-left img{width:170px;}
+.user-email{background:#f1f3f7;padding:8px 15px;border-radius:6px;font-size:14px;color:#555;}
+.menu-btn{font-size:26px;cursor:pointer;}
+
+/* ================= SIDEBAR ================= */
+.sidebar{position:fixed;left:-260px;top:0;width:260px;height:100%;background:#fff;box-shadow:2px 0 12px rgba(0,0,0,0.08);padding:20px;transition:0.3s;z-index:2000;}
+.sidebar.active{left:0;}
+.sidebar img{width:160px;margin-bottom:30px;}
+.sidebar a{display:flex;align-items:center;gap:12px;padding:14px;margin-bottom:10px;border-radius:10px;text-decoration:none;color:#666;font-size:15px;transition:0.3s;}
+.sidebar a:hover{background:#f2f2f2;}
+.sidebar a.active{background:#ff0033;color:#fff;}
+
+/* ================= CONTENT ================= */
+.content{padding:110px 30px 40px 30px;}
+.invest-step{background:#fff;padding:30px;border-radius:14px;box-shadow:0 5px 15px rgba(0,0,0,0.04);margin-bottom:25px;}
+.invest-step h2{font-size:20px;font-weight:600;margin-bottom:15px;}
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:15px;}
+.plan-card{padding:20px;border-radius:12px;border:1px solid #ddd;cursor:pointer;transition:0.3s;text-align:center;}
+.plan-card:hover{background:#f0f4ff;border-color:#2b7bff;}
+.plan-card.selected{background:#2b7bff;color:#fff;border-color:#2b7bff;}
+.plan-card p{margin-top:8px;font-size:14px;color:#555;}
+#investment-amount,input,button{font-family:'Poppins',sans-serif;}
+@media(max-width:768px){.nav-left img{width:130px;}}
+</style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body>
 
-<div class="container mx-auto p-4">
-    <h1 class="text-3xl font-bold text-center mb-6">Invest Funds</h1>
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <img src="static/images/dark_logo.png">
+    <a href="/dashboard.html">🏠 Dashboard</a>
+    <a href="#">📊 All signal</a>
+    <a href="#">📈 Trade</a>
+    <a href="#" class="active">💼 Invest</a>
+    <a href="/deposit.html">💳 Deposit now</a>
+    <a href="#">💵 Withdraw</a>
+    <a href="#">🔁 Transfer money</a>
+    <a href="#">📑 Report</a>
+</div>
 
-    <div class="bg-white p-6 rounded-xl shadow-md mb-6">
-        <h2 class="text-xl font-semibold mb-4">Choose Investment Plan</h2>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-            <button class="investment-plan p-4 border rounded hover:bg-green-50 transition" data-plan="beginners">Beginners (5% return)</button>
-            <button class="investment-plan p-4 border rounded hover:bg-green-50 transition" data-plan="standard">Standard (8% return)</button>
-            <button class="investment-plan p-4 border rounded hover:bg-green-50 transition" data-plan="professional">Professional (10% return)</button>
-            <button class="investment-plan p-4 border rounded hover:bg-green-50 transition" data-plan="advanced">Advanced (15% return)</button>
-            <button class="investment-plan p-4 border rounded hover:bg-green-50 transition" data-plan="special">Special (20% return)</button>
-            <button class="investment-plan p-4 border rounded hover:bg-green-50 transition" data-plan="executive">Executive (30% return)</button>
-            <button class="investment-plan p-4 border rounded hover:bg-green-50 transition" data-plan="ultimate">Ultimate (40% return)</button>
+<!-- Navbar -->
+<div class="navbar">
+    <div class="nav-left">
+        <img src="static/images/dark_logo.png">
+        <div class="user-email" id="email"></div>
+    </div>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+</div>
+
+<!-- Content -->
+<div class="content">
+
+    <div class="invest-step">
+        <h2>Step 1: Choose Investment Plan</h2>
+        <div class="plan-grid">
+            <div class="plan-card" data-plan="beginners" data-min="50">
+                Beginners<br>(5% return)<p>Minimum $50</p>
+            </div>
+            <div class="plan-card" data-plan="standard" data-min="100">
+                Standard<br>(8% return)<p>Minimum $100</p>
+            </div>
+            <div class="plan-card" data-plan="professional" data-min="250">
+                Professional<br>(10% return)<p>Minimum $250</p>
+            </div>
+            <div class="plan-card" data-plan="advanced" data-min="500">
+                Advanced<br>(15% return)<p>Minimum $500</p>
+            </div>
+            <div class="plan-card" data-plan="special" data-min="1000">
+                Special<br>(20% return)<p>Minimum $1000</p>
+            </div>
+            <div class="plan-card" data-plan="executive" data-min="2500">
+                Executive<br>(30% return)<p>Minimum $2500</p>
+            </div>
+            <div class="plan-card" data-plan="ultimate" data-min="5000">
+                Ultimate<br>(40% return)<p>Minimum $5000</p>
+            </div>
         </div>
+    </div>
 
+    <div class="invest-step">
+        <h2>Step 2: Select Currency & Amount</h2>
         <select id="investment-currency" class="w-full p-3 border rounded mb-4">
             <option value="">-- Choose Currency --</option>
             <option value="usdt_trc">USDT (TRC20)</option>
@@ -31,33 +104,50 @@
             <option value="btc">Bitcoin</option>
             <option value="eth">Ethereum</option>
         </select>
-
         <input type="number" id="investment-amount" placeholder="Enter amount to invest" class="w-full p-3 border rounded mb-4" />
-
         <button id="submit-investment" class="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition">Invest Now</button>
     </div>
+
 </div>
 
 <script>
+function toggleMenu(){document.getElementById("sidebar").classList.toggle("active");}
+
+// Load current user
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const res = await fetch("/api/current_user",{method:"GET",credentials:"include"});
+        if(!res.ok){window.location.href="/login.html";return;}
+        const data = await res.json();
+        const emailShort = data.email.length>7?data.email.substring(0,7)+"...":data.email;
+        document.getElementById("email").innerText = emailShort;
+    } catch(e){console.error(e);window.location.href="/login.html";}
+});
+
+// Investment plan selection
 let selectedPlan = null;
-document.querySelectorAll('.investment-plan').forEach(btn => {
-    btn.addEventListener('click', () => {
-        selectedPlan = btn.dataset.plan;
-        document.querySelectorAll('.investment-plan').forEach(b => b.classList.remove('bg-green-100'));
-        btn.classList.add('bg-green-100');
+let planMinAmount = 0;
+document.querySelectorAll('.plan-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+        selectedPlan = card.dataset.plan;
+        planMinAmount = parseFloat(card.dataset.min);
+        document.querySelectorAll('.plan-card').forEach(c=>c.classList.remove('selected'));
+        card.classList.add('selected');
     });
 });
 
-document.getElementById('submit-investment').addEventListener('click', async () => {
+// Submit investment
+document.getElementById('submit-investment').addEventListener('click', async ()=>{
     const currency = document.getElementById('investment-currency').value;
-    const amount = document.getElementById('investment-amount').value;
-    if (!selectedPlan || !currency || !amount) return alert('Please select plan, currency, and amount');
+    const amount = parseFloat(document.getElementById('investment-amount').value);
+    if(!selectedPlan || !currency || !amount) return alert('Select plan, currency, and enter amount');
+    if(amount < planMinAmount) return alert(`Amount must be at least $${planMinAmount} for this plan`);
 
-    try {
-        const res = await axios.post('/api/invest', { plan: selectedPlan, currency, amount });
+    try{
+        const res = await axios.post('/api/invest',{plan:selectedPlan,currency,amount});
         alert(res.data.message);
-    } catch (err) {
-        alert(err.response.data.message || 'Error investing');
+    }catch(err){
+        alert(err.response?.data?.message || 'Error submitting investment');
     }
 });
 </script>

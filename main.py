@@ -393,6 +393,10 @@ def check_username():
 def deposithtml():
     return render_template("deposit.html")
 
+@app.route("/plan.html")
+def investplanhtml():
+    return render_template("investment.html")
+
 @app.route('/api/deposit', methods=['POST'])
 @jwt_required()
 def deposit():
