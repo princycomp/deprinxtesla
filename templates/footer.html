@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tesla Footer</title>
+
+<style>
+body{
+    margin:0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background:#2f3e6f;
+}
+
+.footer{
+    background: linear-gradient(180deg,#34467c 0%, #2f3e6f 100%);
+    color:#fff;
+    padding:60px 60px 40px 60px;
+    position:relative;
+    overflow:hidden;
+}
+
+/* subtle background circles */
+.footer::before{
+    content:"";
+    position:absolute;
+    width:500px;
+    height:500px;
+    background:rgba(255,255,255,0.04);
+    border-radius:50%;
+    top:80px;
+    right:150px;
+    filter:blur(2px);
+}
+
+.footer-top{
+    margin-bottom:40px;
+}
+
+.tesla-logo{
+    width:320px;
+    margin-bottom:20px;
+}
+
+/* Section titles */
+.footer h3{
+    font-size:18px;
+    margin-bottom:20px;
+    font-weight:600;
+}
+
+.about p{
+    font-size:14px;
+    margin:8px 0;
+    opacity:0.9;
+}
+
+.about span{
+    display:inline-block;
+    width:20px;
+}
+
+/* Company Links */
+.company{
+    margin-top:40px;
+}
+
+.company-links{
+    display:flex;
+    gap:120px;
+}
+
+.company-links ul{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.company-links li{
+    margin-bottom:12px;
+    font-size:14px;
+    opacity:0.9;
+}
+
+.company-links li::before{
+    content:"• ";
+    margin-right:6px;
+}
+
+/* Newsletter */
+.newsletter{
+    margin-top:40px;
+}
+
+.newsletter-input{
+    display:flex;
+    align-items:center;
+    margin-top:20px;
+    border-bottom:1px solid rgba(255,255,255,0.3);
+    padding-bottom:10px;
+}
+
+.newsletter-input input{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:#fff;
+    font-size:14px;
+}
+
+.newsletter-input input::placeholder{
+    color:rgba(255,255,255,0.6);
+}
+
+.send-btn{
+    width:55px;
+    height:45px;
+    background:#f04b55;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+.send-btn i{
+    color:#fff;
+    font-size:18px;
+}
+
+.newsletter small{
+    display:block;
+    margin-top:15px;
+    font-size:13px;
+    opacity:0.8;
+}
+
+/* Partner */
+.partner{
+    margin-top:40px;
+}
+
+.hapton-logo{
+    width:220px;
+    margin-bottom:5px;
+}
+
+.partner p{
+    font-size:13px;
+    opacity:0.9;
+}
+</style>
+</head>
+<body>
+
+<footer class="footer">
+
+    <!-- Tesla Logo -->
+    <div class="footer-top">
+        <img src="static/images/cardone2.png" alt="Tesla Logo" class="tesla-logo">
+    </div>
+
+    <!-- About Company -->
+    <div class="about">
+        <h3>About Company</h3>
+        <p><span>📍</span>3500 Deer Creek Road, Palo Alto, California, 94304.</p>
+        <p><span>📞</span>Phone: +(952)954-1306</p>
+        <p><span>✉</span>Email: support@trade.teslainvestmen.org</p>
+    </div>
+
+    <!-- Our Company -->
+    <div class="company">
+        <h3>Our Company</h3>
+        <div class="company-links">
+            <ul>
+                <li>Home</li>
+                <li>About Company</li>
+                <li>Contact Us</li>
+                <li>F.A.Q</li>
+                <li>Investment News</li>
+            </ul>
+
+            <ul>
+                <li>Investment Plans</li>
+                <li>Login</li>
+                <li>Create Account</li>
+                <li>Privacy Policy</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="newsletter">
+        <h3>Subscribe Newsletter</h3>
+
+        <div class="newsletter-input">
+            <input type="email" placeholder="Enter your email...">
+            <div class="send-btn">
+                ➤
+            </div>
+        </div>
+
+        <small>
+            Sign up for our latest news & articles. We won't give you spam mails.
+        </small>
+    </div>
+
+    <!-- Partner -->
+    <div class="partner">
+        <img src="hapton-logo.png" alt="Hapton Credit Union" class="hapton-logo">
+        <p>Partnered By Hapton Credit Union</p>
+    </div>
+
+</footer>
+
+</body>
+</html>

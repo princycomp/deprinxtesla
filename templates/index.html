@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tesla Investment & Stocks</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/style.css">
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body, html{
+    height:100%;
+}
+
+/* HERO SECTION */
+.hero{
+    position:relative;
+    height:100vh;
+    background: url('static/images/slide3.jpg') center center/cover no-repeat;
+    display:flex;
+    flex-direction:column;
+}
+
+/* DARK OVERLAY */
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.45);
+}
+
+/* NAVBAR */
+.navbar{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    padding:20px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:5;
+    background:transparent;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#fff;
+}
+
+.logo img{
+    width:30%;
+}
+
+.logo-text{
+    display:flex;
+    flex-direction:column;
+}
+
+.logo-text span{
+    font-size:14px;
+    color:#fff;
+    letter-spacing:1px;
+}
+
+/* MENU ICON */
+.menu-toggle{
+    width:45px;
+    height:45px;
+    border:2px solid #fff;
+    border-radius:8px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+}
+
+.menu-toggle div{
+    width:22px;
+    height:2px;
+    background:#fff;
+    position:relative;
+    transition:0.3s;
+}
+
+.menu-toggle div::before,
+.menu-toggle div::after{
+    content:"";
+    position:absolute;
+    width:22px;
+    height:2px;
+    background:#fff;
+    left:0;
+    transition:0.3s;
+}
+
+.menu-toggle div::before{ top:-7px; }
+.menu-toggle div::after{ top:7px; }
+
+/* ACTIVE ANIMATION */
+.menu-toggle.active div{
+    background:transparent;
+}
+
+.menu-toggle.active div::before{
+    transform:rotate(45deg);
+    top:0;
+}
+
+.menu-toggle.active div::after{
+    transform:rotate(-45deg);
+    top:0;
+}
+
+/* MOBILE MENU */
+.mobile-menu{
+    position:fixed;
+    top:0;
+    right:-100%;
+    width:250px;
+    height:100vh;
+    background:#111;
+    padding:100px 30px;
+    transition:0.4s ease;
+    z-index:4;
+}
+
+.mobile-menu.active{
+    right:0;
+}
+
+.mobile-menu a{
+    display:block;
+    color:#fff;
+    text-decoration:none;
+    margin-bottom:25px;
+    font-size:18px;
+}
+
+/* HERO CONTENT */
+.hero-content{
+    position:relative;
+    z-index:3;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:#fff;
+    padding:20px;
+}
+
+.hero-content h5{
+    font-weight:600;
+    letter-spacing:3px;
+    margin-bottom:20px;
+}
+
+.hero-content h1{
+    font-size:60px;
+    font-weight:300;
+    line-height:1.2;
+    margin-bottom:35px;
+}
+
+.btn{
+    padding:15px 45px;
+    border:2px solid #fff;
+    border-radius:50px;
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#fff;
+    color:#000;
+}
+
+/* LANGUAGE SELECTOR */
+.language-box{
+    position:absolute;
+    bottom:25px;
+    left:20px;
+    background:#fff;
+    padding:8px 12px;
+    border-radius:4px;
+    font-size:14px;
+    z-index:5;
+}
+
+/* CHAT BUBBLE */
+.chat-bubble{
+    position:absolute;
+    bottom:25px;
+    right:25px;
+    width:65px;
+    height:65px;
+    background:#e82127;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+    font-size:22px;
+    z-index:5;
+    box-shadow:0 10px 25px rgba(0,0,0,0.4);
+    cursor:pointer;
+}
+
+.notification{
+    position:absolute;
+    top:-5px;
+    right:-5px;
+    background:#ff0000;
+    color:#fff;
+    font-size:12px;
+    padding:4px 7px;
+    border-radius:50%;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .hero-content h1{
+        font-size:38px;
+    }
+
+    .navbar{
+        padding:15px 20px;
+    }
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+
+    <div class="navbar">
+        <div class="logo">
+            <img src="static/images/cardone2.png" alt="Tesla Logo">
+
+        </div>
+
+        <div class="menu-toggle" id="menuToggle">
+            <div></div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Investments</a>
+        <a href="#">Contact</a>
+        <a href="/register.html">Register</a>
+
+    </div>
+
+    <div class="hero-content">
+        <h5>WE ARE HERE FOR</h5>
+        <h1>Giving Future to your<br>Investment</h1>
+        <a href="/register.html" class="btn">GET STARTED</a>
+    </div>
+
+
+    <section class="services">
+
+    <div class="service-box">
+        <div class="icon">
+            💰
+        </div>
+        <h3>Stocks</h3>
+    </div>
+
+    <div class="service-box">
+        <div class="icon">
+            📝
+        </div>
+        <h3>Bonds and ETFs</h3>
+    </div>
+
+    <div class="service-box">
+        <div class="icon">
+            🧾
+        </div>
+        <h3>Our Products</h3>
+    </div>
+
+    <div class="service-box">
+        <div class="icon">
+            🖥️
+        </div>
+        <h3>Real Estate Investing</h3>
+    </div>
+
+</section>
+
+    <section class="explore">
+    <div class="explore-container">
+        <h2>Explore Solutions</h2>
+
+        <p>
+            From banking and insurance to wealth management and
+            securities distribution, we dedicated financial services the
+            teams serve all major sectors.
+        </p>
+
+        <a href="register.html" class="explore-btn">GET STARTED</a>
+    </div>
+</section>
+
+    <section class="stock-section">
+    <img src="static/images/explore-1.jpg" alt="Stock Trading" class="stock-image">
+
+    <div class="text-box">
+        <h2>Want more out of your Stock trading?</h2>
+    </div>
+
+<br><br>
+</section>
+    <section class="stock-section">
+    <img src="static/images/explore-2.jpg" alt="Stock Trading" class="stock-image">
+
+    <div class="text-box">
+        <h2>High-tech solutions meet Instant execution</h2>
+    </div>
+
+<br><br>
+</section>
+    <section class="stock-section">
+    <img src="static/images/explore-3.jpg" alt="Stock Trading" class="stock-image">
+
+    <div class="text-box">
+        <h2>One of the world's most trusted broker</h2>
+    </div>
+
+<br><br>
+</section>
+
+
+    <section class="explore">
+    <div class="explore-container">
+        <h2>Tesla Cars</h2>
+
+        <p>
+            The Tesla Car price in the USA starts at around $70,000 for the Long Range
+            RWD model, with the All-Wheel Drive model starting at approximately $80,000,
+            and the Cyberbeast version starting at about $100,000.
+            These prices are for the 2025 models and are subject to change.
+        </p>
+
+        <a href="#" class="explore-btn">GET STARTED</a>
+    </div>
+</section>
+
+
+
+<div class="footer-container">
+<footer class="footer">
+
+    <!-- Tesla Logo -->
+    <div class="footer-top">
+        <img src="static/images/cardone2.png" alt="Tesla Logo" class="tesla-logo">
+    </div>
+
+    <!-- About Company -->
+    <div class="about">
+        <h3>About Company</h3>
+        <p><span>📍</span>3500 Deer Creek Road, Palo Alto, California, 94304.</p>
+        <p><span>📞</span>Phone: +(952)954-1306</p>
+        <p><span>✉</span>Email: support@trade.teslainvestmen.org</p>
+    </div>
+
+    <!-- Our Company -->
+    <div class="company">
+        <h3>Our Company</h3>
+        <div class="company-links">
+            <ul>
+                <li>Home</li>
+                <li>About Company</li>
+                <li>Contact Us</li>
+                <li>F.A.Q</li>
+                <li>Investment News</li>
+            </ul>
+
+            <ul>
+                <li>Investment Plans</li>
+                <li>Login</li>
+                <li>Create Account</li>
+                <li>Privacy Policy</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="newsletter">
+        <h3>Subscribe Newsletter</h3>
+
+        <div class="newsletter-input">
+            <input type="email" placeholder="Enter your email...">
+            <div class="send-btn">
+                ➤
+            </div>
+        </div>
+
+        <small>
+            Sign up for our latest news & articles. We won't give you spam mails.
+        </small>
+    </div>
+
+    <!-- Partner -->
+    <div class="partner">
+        <img src="static/images/lgo.png" alt="Hapton Credit Union" class="hapton-logo">
+        <p>Partnered By Hapton Credit Union</p>
+    </div>
+
+</footer>
+</div>
+<script>
+const menuToggle = document.getElementById("menuToggle");
+const mobileMenu = document.getElementById("mobileMenu");
+
+menuToggle.addEventListener("click", () => {
+    menuToggle.classList.toggle("active");
+    mobileMenu.classList.toggle("active");
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f2f2f2;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.container{
+    width:100%;
+    max-width:850px;
+    padding:40px 50px;
+}
+
+.logo{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.logo img{
+    width:220px;
+}
+
+h1{
+    text-align:center;
+    font-size:34px;
+    font-weight:600;
+    margin-bottom:40px;
+    color:#2d2d2d;
+}
+
+.form-row{
+    display:flex;
+    gap:25px;
+    margin-bottom:25px;
+}
+
+.form-group{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+label{
+    font-size:15px;
+    margin-bottom:8px;
+    color:#333;
+    font-weight:500;
+}
+
+.input-box{
+    position:relative;
+}
+
+.input-box input{
+    width:100%;
+    padding:16px 16px 16px 50px;
+    border:1px solid #d8d8d8;
+    border-radius:8px;
+    background:#fff;
+    font-size:15px;
+    outline:none;
+    transition:0.3s;
+}
+
+.input-box input:focus{
+    border-color:#a100ff;
+    box-shadow:0 0 0 3px rgba(161,0,255,0.08);
+}
+
+.input-box i{
+    position:absolute;
+    left:16px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:18px;
+    color:#9c9c9c;
+}
+
+.full-width{
+    margin-bottom:25px;
+}
+
+button{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    background:linear-gradient(90deg,#8e2de2,#c314f5);
+    color:#fff;
+    margin-top:15px;
+    transition:0.3s;
+}
+
+button:hover{
+    opacity:0.95;
+}
+
+.bottom-text{
+    text-align:center;
+    margin-top:25px;
+    font-size:15px;
+    color:#555;
+}
+
+.bottom-text a{
+    color:#8e2de2;
+    text-decoration:none;
+    font-weight:500;
+}
+
+.bottom-text a:hover{
+    text-decoration:underline;
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .form-row{
+        flex-direction:column;
+    }
+
+    .container{
+        padding:30px 25px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        <img src="static/images/dark_logo.png" alt="Tesla Investment Logo">
+    </div>
+
+    <h1>Title Here</h1>
+
+    <form method="POST" id="registerForm">
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Username</label>
+                <div class="input-box">
+                    <i>👤</i>
+                    <input type="text" name="username" placeholder="User name" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Whatsapp number</label>
+                <div class="input-box">
+                    <i>📞</i>
+                    <input type="text" name="whatsapp" placeholder="Phone number" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group full-width">
+            <label>Email</label>
+            <div class="input-box">
+                <i>✉️</i>
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+        </div>
+
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-box">
+                    <i>👁</i>
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>Confirm password</label>
+                <div class="input-box">
+                    <i>👁</i>
+                    <input type="password" name="confirm_password" placeholder="Confirm password" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Referral</label>
+                <div class="input-box">
+                    <i>👥</i>
+                    <input type="text" name="referrer_username" placeholder="Referral Link">
+                </div>
+            </div>
+        </div>
+
+
+        <button type="submit">Sign up</button>
+
+    </form>
+
+    <div class="bottom-text">
+        Already have an account ? <a href="/login.html">Login</a>
+    </div>
+
+</div>
+
+<!-- JavaScript to handle JSON POST -->
+<script>
+document.getElementById('registerForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    // Disable the button and show loading text
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Registering...';
+
+    const data = {
+        username: form.username.value,
+        whatsapp: form.whatsapp.value,
+        email: form.email.value,
+        password: form.password.value,
+        confirm_password: form.confirm_password.value,
+        referrer_username: form.referrer_username.value || ''
+    };
+
+    try {
+        const res = await fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+
+        if (res.ok) {
+            alert(result.message);
+            // Optionally redirect or show modal
+            window.location.href = "/login.html";
+        } else {
+            alert(result.errors ? JSON.stringify(result.errors) : result.message);
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Register';
+        }
+    } catch (err) {
+        console.error('Registration error:', err);
+        alert('Something went wrong!');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Register';
+    }
+});
+</script>
+
+</body>
+</html>

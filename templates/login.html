@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f3f3f3;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.container{
+    width:100%;
+    max-width:520px;
+    padding:40px 35px;
+}
+
+.logo{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.logo img{
+    width:200px;
+}
+
+h1{
+    text-align:center;
+    font-size:32px;
+    font-weight:600;
+    margin-bottom:35px;
+    color:#2d2d2d;
+}
+
+.form-group{
+    margin-bottom:22px;
+    display:flex;
+    flex-direction:column;
+}
+
+label{
+    font-size:14px;
+    margin-bottom:8px;
+    color:#444;
+    font-weight:500;
+}
+
+.input-box{
+    position:relative;
+}
+
+.input-box input{
+    width:100%;
+    padding:15px 15px 15px 48px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:15px;
+    background:#fff;
+    outline:none;
+    transition:0.3s;
+}
+
+.input-box input:focus{
+    border-color:#a100ff;
+    box-shadow:0 0 0 3px rgba(161,0,255,0.08);
+}
+
+.input-box i{
+    position:absolute;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:18px;
+    color:#9e9e9e;
+}
+
+.options{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    font-size:14px;
+}
+
+.options input{
+    accent-color:#8e2de2;
+    margin-right:6px;
+}
+
+.options a{
+    color:#a100ff;
+    text-decoration:none;
+    font-weight:500;
+}
+
+.options a:hover{
+    text-decoration:underline;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:8px;
+    font-size:17px;
+    font-weight:600;
+    cursor:pointer;
+    background:linear-gradient(90deg,#8e2de2,#c314f5);
+    color:#fff;
+    transition:0.3s;
+}
+
+button:hover{
+    opacity:0.95;
+}
+
+.divider{
+    display:flex;
+    align-items:center;
+    margin:30px 0;
+    color:#888;
+    font-size:14px;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:#ddd;
+}
+
+.divider span{
+    margin:0 12px;
+}
+
+.bottom-text{
+    text-align:center;
+    font-size:14px;
+    color:#555;
+}
+
+.bottom-text a{
+    color:#a100ff;
+    text-decoration:none;
+    font-weight:500;
+}
+
+.bottom-text a:hover{
+    text-decoration:underline;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        <img src="static/images/dark_logo.png" alt="Tesla Investment Logo">
+    </div>
+
+    <h1>Title Here</h1>
+
+    <form method="POST" id="loginForm">
+
+        <div class="form-group">
+            <label>User email</label>
+            <div class="input-box">
+                <i>✉️</i>
+                <input type="email" name="email" placeholder="Enter your email" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <div class="input-box">
+                <i>🔒</i>
+                <input type="password" name="password" placeholder="Enter password" required>
+            </div>
+        </div>
+
+        <div class="options">
+            <label><input type="checkbox"> Remember me</label>
+            <a href="/forgot-password">Forget password</a>
+        </div>
+
+        <button type="submit">Login</button>
+
+    </form>
+
+    <div class="divider">
+        <span>Or login with</span>
+    </div>
+
+    <div class="bottom-text">
+        Haven’t an account ? <a href="/register.html">Sign up</a>
+    </div>
+
+</div>
+
+     <script>
+document.getElementById("loginForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    try {
+        const response = await fetch("/api/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            // Optionally store token if needed
+            localStorage.setItem("access_token", result.access_token);
+
+            // Redirect to dashboard
+            window.location.href = "/dashboard";
+        } else {
+            // Display error from backend, fallback to generic message
+            document.getElementById("error-msg").textContent = result.errors || "Login failed";
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+        document.getElementById("error-msg").textContent = "An error occurred. Please try again.";
+    }
+});
+</script>
+</body>
+</html>

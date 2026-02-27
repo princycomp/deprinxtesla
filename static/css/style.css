@@ -1,0 +1,314 @@
+/* SERVICES SECTION */
+.services{
+    width:100%;
+    background:#f4f4f4;
+    padding:40px 0;
+}
+
+.service-box{
+    width:90%;
+    max-width:1200px;
+    margin:0 auto 25px auto;
+    background:#7b8596;
+    padding:45px 40px;
+    display:flex;
+    align-items:center;
+    gap:30px;
+    color:#fff;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    transition:0.4s ease;
+}
+
+/* Shine effect layer */
+.service-box::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(232,33,39,0.4),
+        transparent
+    );
+    transition:0.6s;
+}
+
+/* Hover Effect */
+.service-box:hover::before{
+    left:100%;
+}
+
+.service-box:hover{
+    box-shadow:0 0 25px rgba(232,33,39,0.6);
+    transform:translateY(-3px);
+}
+
+/* ICON */
+.service-box .icon{
+    font-size:40px;
+}
+
+/* TEXT */
+.service-box h3{
+    font-size:24px;
+    font-weight:600;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .service-box{
+        flex-direction:column;
+        align-items:flex-start;
+        padding:35px 25px;
+    }
+
+    .service-box h3{
+        font-size:20px;
+    }
+}
+
+/* EXPLORE SECTION */
+.explore{
+    background:#d9dde2;
+    padding:100px 20px;
+}
+
+.explore-container{
+    max-width:900px;
+    margin:0 auto;
+}
+
+.explore h2{
+    font-size:48px;
+    font-weight:700;
+    color:#13233a;
+    margin-bottom:35px;
+}
+
+.explore p{
+    font-size:22px;
+    line-height:1.8;
+    color:#3f4c5f;
+    max-width:800px;
+    margin-bottom:50px;
+}
+
+.explore-btn{
+    display:inline-block;
+    background:#ef4b52;
+    color:#fff;
+    padding:22px 60px;
+    border-radius:50px;
+    text-decoration:none;
+    font-weight:600;
+    font-size:18px;
+    letter-spacing:1px;
+    transition:0.3s ease;
+}
+
+.explore-btn:hover{
+    background:#d83b42;
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(239,75,82,0.4);
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+
+    .explore{
+        padding:70px 20px;
+    }
+
+    .explore h2{
+        font-size:34px;
+    }
+
+    .explore p{
+        font-size:18px;
+    }
+
+    .explore-btn{
+        padding:18px 40px;
+        font-size:16px;
+    }
+}
+
+.stock-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    background: #fff;
+}
+
+.stock-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.text-box {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #f3f3f3;
+    padding: 28px 60px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    text-align: center;
+    width: 75%;
+}
+
+.text-box h2 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: #2c2c2c;
+}
+
+.footer-container {
+    height: 100vh;
+
+}
+
+.footer{
+    background: linear-gradient(180deg,#34467c 0%, #2f3e6f 100%);
+    color:#fff;
+    padding:60px 60px 40px 60px;
+    overflow:hidden;
+}
+
+/* subtle background circles */
+.footer::before{
+    content:"";
+    position:absolute;
+    width:500px;
+    height:500px;
+    background:rgba(255,255,255,0.04);
+    border-radius:50%;
+    top:80px;
+    right:150px;
+    filter:blur(2px);
+}
+
+.footer-top{
+    margin-bottom:40px;
+}
+
+.tesla-logo{
+    width:320px;
+    margin-bottom:20px;
+}
+
+/* Section titles */
+.footer h3{
+    font-size:18px;
+    margin-bottom:20px;
+    font-weight:600;
+}
+
+.about p{
+    font-size:14px;
+    margin:8px 0;
+    opacity:0.9;
+}
+
+.about span{
+    display:inline-block;
+    width:20px;
+}
+
+/* Company Links */
+.company{
+    margin-top:40px;
+}
+
+.company-links{
+    display:flex;
+    gap:120px;
+}
+
+.company-links ul{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.company-links li{
+    margin-bottom:12px;
+    font-size:14px;
+    opacity:0.9;
+}
+
+.company-links li::before{
+    content:"• ";
+    margin-right:6px;
+}
+
+/* Newsletter */
+.newsletter{
+    margin-top:40px;
+}
+
+.newsletter-input{
+    display:flex;
+    align-items:center;
+    margin-top:20px;
+    border-bottom:1px solid rgba(255,255,255,0.3);
+    padding-bottom:10px;
+}
+
+.newsletter-input input{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:#fff;
+    font-size:14px;
+}
+
+.newsletter-input input::placeholder{
+    color:rgba(255,255,255,0.6);
+}
+
+.send-btn{
+    width:55px;
+    height:45px;
+    background:#f04b55;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+.send-btn i{
+    color:#fff;
+    font-size:18px;
+}
+
+.newsletter small{
+    display:block;
+    margin-top:15px;
+    font-size:13px;
+    opacity:0.8;
+}
+
+/* Partner */
+.partner{
+    margin-top:40px;
+}
+
+.hapton-logo{
+    width:220px;
+    margin-bottom:5px;
+}
+
+.partner p{
+    font-size:13px;
+    opacity:0.9;
+}
