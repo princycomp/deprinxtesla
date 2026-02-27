@@ -397,6 +397,11 @@ def deposithtml():
 def investplanhtml():
     return render_template("investment.html")
 
+@app.route("/withdraw.html")
+def withdrawhtml():
+    return render_template("withdraw.html")
+
+
 @app.route('/api/deposit', methods=['POST'])
 @jwt_required()
 def deposit():
