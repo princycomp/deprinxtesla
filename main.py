@@ -15,6 +15,8 @@ from forms import RegistrationForm, LoginForm
 from models import get_user_by_id
 import logging
 from flask_cors import CORS
+from flask_jwt_extended import unset_jwt_cookies
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkdeEfBA6O6donzWlSihBXox7C0sKR6b'
@@ -25,6 +27,12 @@ app.config['MAIL_USERNAME'] = 'teslaproinvestmentplatform1@gmail.com'
 app.config['MAIL_PASSWORD'] = 'yvvpuxqpaaqtqsed'
 app.config['MAIL_DEFAULT_SENDER'] = 'teslaproinvestmentplatform1@gmail.com'
 app.config['JWT_SECRET_KEY'] = 'super-secret-jwt-key'
+# STORE JWT IN COOKIES
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+app.config["JWT_ACCESS_COOKIE_PATH"] = "/"
+app.config["JWT_COOKIE_SECURE"] = True  # True in production (HTTPS)
+app.config["JWT_COOKIE_CSRF_PROTECT"] = False  # disable for now
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=7)
 
 MONGO_URI = 'mongodb+srv://pblmtechnologyinnovation:Ok6Wiu6HqTorLOSu@computercloud.99whnwd.mongodb.net/?retryWrites=true&w=majority'
 client = MongoClient(MONGO_URI)
@@ -284,30 +292,36 @@ def confirm_email():
         return render_template('confirmation_failed.html')
 
 
+from flask_jwt_extended import set_access_cookies
+
 @app.route('/api/login', methods=['POST'])
 def login():
     form = LoginForm()
     data = request.get_json()
+
     form.email.data = data['email']
     form.password.data = data['password']
 
     if form.validate():
         user_data = app.mongo.db.users_teslaproinvestment.find_one({"email": form.email.data})
+
         if user_data and bcrypt.check_password_hash(user_data['password'], form.password.data):
-            user = User(user_data)
-            access_token = create_access_token(identity=user.id)
-            return jsonify({'message': 'Login successful!', 'access_token': access_token}), 200
-        else:
-            return jsonify({'errors': 'Login Unsuccessful. Please check email and password'}), 400
-    else:
-        return jsonify({'errors': form.errors}), 400
+
+            access_token = create_access_token(identity=str(user_data["_id"]))
+
+            response = jsonify({"message": "Login successful"})
+            set_access_cookies(response, access_token)
+
+            return response, 200
+
+    return jsonify({"message": "Invalid email or password"}), 401
 
 
 @app.route('/api/logout', methods=['POST'])
-@jwt_required()
 def logout():
-    # Since we're using JWTs, the frontend can simply delete the token to "log out"
-    return jsonify({'message': 'User logged out successfully!'}), 200
+    response = jsonify({"message": "Logged out successfully"})
+    unset_jwt_cookies(response)
+    return response
 
 
 @app.route('/api/current_user', methods=['GET'])
