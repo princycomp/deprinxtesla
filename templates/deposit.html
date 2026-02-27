@@ -162,7 +162,7 @@ document.getElementById('proceed-payment').addEventListener('click', ()=>{
     if(!selectedCurrency || !amount) return alert('Select currency and enter amount');
     const data = addresses[selectedCurrency];
     document.getElementById('modal-qr').src = data.qr;
-    document.getElementById('modal-info').textContent = `Send ${amount} ${selectedCurrency.toUpperCase()} to the address below.`;
+    document.getElementById('modal-info').textContent = `Send $ ${amount} ${selectedCurrency.toUpperCase()} (USD) to the address below.`;
     modalBg.style.display='flex';
 });
 
