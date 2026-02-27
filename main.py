@@ -388,7 +388,7 @@ def check_username():
     else:
         return jsonify({'exists': False}), 200
 
-@app.route('/deposit.html)
+@app.route('/deposit.html')
 @jwt_required()
 def deposithtml()
     return render_template("deposit.html")
