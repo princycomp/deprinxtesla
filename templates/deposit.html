@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Deposit - Tesla Finance</title>
 
+<!-- Fonts & Tailwind -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -26,7 +27,7 @@ body{font-family:'Poppins',sans-serif;background:#f4f6f9;}
 .sidebar a:hover{background:#f2f2f2;}
 .sidebar a.active{background:#ff0033;color:#fff;}
 
-/* Content & deposit steps */
+/* Content */
 .content{padding:110px 30px 40px 30px;}
 .deposit-step{background:#fff;padding:30px;border-radius:14px;box-shadow:0 5px 15px rgba(0,0,0,0.04);margin-bottom:25px;}
 .deposit-step h2{font-size:20px;font-weight:600;margin-bottom:15px;}
@@ -35,12 +36,12 @@ body{font-family:'Poppins',sans-serif;background:#f4f6f9;}
 .currency-grid button:hover{background:#dbe4ff;}
 .currency-grid button img{width:40px;height:40px;margin-bottom:8px;}
 .currency-grid button span{font-weight:500;text-align:center;font-size:14px;}
-#deposit-step-2 input{width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;margin-bottom:15px;font-size:16px;}
-#deposit-step-2 button{width:100%;background:#2b7bff;color:#fff;padding:12px;border-radius:8px;font-size:16px;}
+#deposit-step-2 input, #deposit-step-3 input{width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;margin-bottom:15px;font-size:16px;}
+#deposit-step-2 button, #deposit-step-3 button{width:100%;background:#2b7bff;color:#fff;padding:12px;border-radius:8px;font-size:16px;}
 .hidden{display:none;}
 
 /* Modal */
-.modal-bg{background:rgba(0,0,0,0.5);position:fixed;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:3000;}
+.modal-bg{background:rgba(0,0,0,0.5);position:fixed;top:0;left:0;width:100%;height:100%;display:none;align-items:center;justify-content:center;z-index:3000;}
 .modal{background:#fff;padding:25px;border-radius:12px;max-width:400px;width:90%;text-align:center;position:relative;}
 .modal h3{font-size:18px;font-weight:600;margin-bottom:15px;}
 .modal img{width:180px;height:180px;margin:15px auto;border:1px solid #ddd;padding:8px;border-radius:12px;}
@@ -75,7 +76,7 @@ body{font-family:'Poppins',sans-serif;background:#f4f6f9;}
 <!-- Content -->
 <div class="content">
 
-    <!-- Step 1: Choose currency -->
+    <!-- Step 1: Choose Currency -->
     <div class="deposit-step" id="deposit-step-1">
         <h2>Step 1: Choose Currency</h2>
         <div class="currency-grid">
@@ -107,8 +108,8 @@ body{font-family:'Poppins',sans-serif;background:#f4f6f9;}
 
 </div>
 
-<!-- Step 3/4: Modal with QR & Payment Completed -->
-<div class="modal-bg hidden" id="payment-modal">
+<!-- Modal Step 3: Payment -->
+<div class="modal-bg" id="payment-modal">
     <div class="modal">
         <span class="modal-close" id="modal-close">&times;</span>
         <h3>Step 3: Complete Your Payment</h3>
@@ -121,56 +122,7 @@ body{font-family:'Poppins',sans-serif;background:#f4f6f9;}
 <script>
 function toggleMenu(){document.getElementById("sidebar").classList.toggle("active");}
 
-let selectedCurrency = null;
-document.querySelectorAll('.deposit-currency').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-        selectedCurrency = btn.dataset.currency;
-        document.getElementById('deposit-step-1').classList.add('hidden');
-        document.getElementById('deposit-step-2').classList.remove('hidden');
-    });
-});
-
-// Deposit addresses & QR codes
-const addresses = {
-    'usdt_trc': { address: 'AvwzKJp1tbGSmfxZwc6SoXcytsk18bGogood2pUDQBSY', qr: '/static/images/qr_usdt_trc.jpeg' },
-    'usdt_erc': { address: 'AvwzKJp1tbGSmfxZwc6SoXcytsk18bGogood2pUDQBSY', qr: '/static/images/qr_usdt_erc.jpeg' },
-    'btc': { address: 'bc1qa9c8y4563wqd59ljf909yfd3ruqcu5z3w0rcax', qr: '/static/images/qr_btc.jpeg' },
-    'eth': { address: '0x48000cd4edbbdC1c1865354Db405d88152Cd6092', qr: '/static/images/qr_eth.jpeg' }
-};
-
-// Modal
-const modalBg = document.getElementById('payment-modal');
-const modalClose = document.getElementById('modal-close');
-modalClose.addEventListener('click', ()=> modalBg.classList.add('hidden'));
-
-// Step 3: Proceed to Pay -> Show modal
-document.getElementById('proceed-payment').addEventListener('click', ()=>{
-    const amount = document.getElementById('deposit-amount').value;
-    if(!selectedCurrency || !amount) return alert('Select currency and enter amount');
-    const data = addresses[selectedCurrency];
-    document.getElementById('modal-qr').src = data.qr;
-    document.getElementById('modal-info').textContent = `Send ${amount} ${selectedCurrency.toUpperCase()} to this address.`;
-    modalBg.classList.remove('hidden');
-});
-
-// Step 4: Payment Completed -> Submit to API
-document.getElementById('payment-completed').addEventListener('click', async ()=>{
-    const amount = document.getElementById('deposit-amount').value;
-    if(!selectedCurrency || !amount) return alert('Missing data');
-    try{
-        const res = await axios.post('/api/deposit',{currency:selectedCurrency, amount});
-        alert(res.data.message);
-        modalBg.classList.add('hidden');
-        document.getElementById('deposit-step-2').classList.add('hidden');
-        document.getElementById('deposit-step-1').classList.remove('hidden');
-        document.getElementById('deposit-amount').value = '';
-        selectedCurrency = null;
-    }catch(err){
-        alert(err.response?.data?.message || 'Error submitting deposit');
-    }
-});
-
-// Load current user
+// Current user
 document.addEventListener("DOMContentLoaded", async () => {
     try{
         const res = await fetch("/api/current_user",{method:"GET",credentials:"include"});
@@ -179,6 +131,56 @@ document.addEventListener("DOMContentLoaded", async () => {
         const emailShort = data.email.length>7 ? data.email.substring(0,7)+"..." : data.email;
         document.getElementById("email").innerText = emailShort;
     }catch(e){console.error(e);window.location.href="/login.html";}
+});
+
+let selectedCurrency = null;
+const addresses = {
+    'usdt_trc': { address: 'TXYZTRC20ADDRESS123', qr: '/static/images/qr_usdt_trc.jpeg' },
+    'usdt_erc': { address: '0xUSDTERC20ADDRESS456', qr: '/static/images/qr_usdt_erc.jpeg' },
+    'btc': { address: '1BTCADDRESS789', qr: '/static/images/qr_btc.jpeg' },
+    'eth': { address: '0xETHADDRESS012', qr: '/static/images/qr_eth.jpeg' }
+};
+
+// Step 1: Choose currency
+document.querySelectorAll('.deposit-currency').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+        selectedCurrency = btn.dataset.currency;
+        document.getElementById('deposit-step-1').classList.add('hidden');
+        document.getElementById('deposit-step-2').classList.remove('hidden');
+    });
+});
+
+// Step 2: Proceed to pay -> show modal
+const modalBg = document.getElementById('payment-modal');
+const modalClose = document.getElementById('modal-close');
+modalClose.addEventListener('click', ()=>{
+    modalBg.style.display='none';
+});
+
+document.getElementById('proceed-payment').addEventListener('click', ()=>{
+    const amount = document.getElementById('deposit-amount').value;
+    if(!selectedCurrency || !amount) return alert('Select currency and enter amount');
+    const data = addresses[selectedCurrency];
+    document.getElementById('modal-qr').src = data.qr;
+    document.getElementById('modal-info').textContent = `Send ${amount} ${selectedCurrency.toUpperCase()} to the address below.`;
+    modalBg.style.display='flex';
+});
+
+// Step 3: Payment completed -> submit deposit
+document.getElementById('payment-completed').addEventListener('click', async ()=>{
+    const amount = document.getElementById('deposit-amount').value;
+    if(!selectedCurrency || !amount) return alert('Missing data');
+    try{
+        const res = await axios.post('/api/deposit',{currency:selectedCurrency, amount});
+        alert(res.data.message);
+        modalBg.style.display='none';
+        document.getElementById('deposit-step-2').classList.add('hidden');
+        document.getElementById('deposit-step-1').classList.remove('hidden');
+        document.getElementById('deposit-amount').value='';
+        selectedCurrency = null;
+    }catch(err){
+        alert(err.response?.data?.message || 'Error submitting deposit');
+    }
 });
 </script>
 
