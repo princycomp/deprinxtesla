@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+   <style>
+    body {
+        background-color: #ffffff;
+        color: #333;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #f8f9fa;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .header {
+        background-color: #333;
+        padding: 20px;
+        text-align: center;
+        color: #ffffff;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .body {
+        padding: 30px 20px;
+        text-align: center;
+    }
+
+    .body p {
+        margin: 10px 0;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .body .link {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #ffffff;
+        background: linear-gradient(90deg, #000000, #333333);
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background 0.3s ease;
+    }
+
+    .body .link:hover {
+        background: linear-gradient(90deg, #333333, #000000);
+    }
+
+    .footer {
+        background-color: #f1f1f1;
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+        color: #777;
+    }
+
+    .footer p {
+        margin: 5px 0;
+    }
+</style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Tesla Investment Platform</h1>
+        </div>
+        <div class="body">
+            <p style="font-size: 18px; font-weight: bold;">Hi,</p>
+            <p>Thanks for registering with Tesla Investment Platform!</p>
+            <p>Please click the button below to confirm your email address and activate your account:</p>
+            <a href="{{ confirm_url }}" class="link">Verify Email</a>
+            <p style="margin-top: 20px; font-weight: bold;">If you did not register on our website, please disregard this email.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2026 Tesla Investment Platform. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+
+</html>
