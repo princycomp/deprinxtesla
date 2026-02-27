@@ -178,6 +178,34 @@ body{
     font-size:34px;
 }
 
+.referral{
+    margin-top:25px;
+    background:#fff;
+    padding:20px;
+    border-radius:14px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.04);
+    text-align:center;
+}
+
+.referral input{
+    width:80%;
+    padding:10px;
+    border-radius:6px;
+    border:1px solid #ddd;
+    margin-right:10px;
+    font-size:14px;
+}
+
+.referral button{
+    padding:10px 15px;
+    border:none;
+    border-radius:6px;
+    background:#2b7bff;
+    color:#fff;
+    cursor:pointer;
+}
+
+/* Signals Section */
 .signal-section{
     margin-top:40px;
 }
@@ -195,6 +223,7 @@ body{
     border-radius:14px;
     box-shadow:0 5px 15px rgba(0,0,0,0.04);
 }
+
 /* Responsive */
 @media(max-width:768px){
     .nav-left img{
@@ -222,8 +251,7 @@ body{
 <div class="navbar">
     <div class="nav-left">
         <img src="static/images/dark_logo.png">
-        <div class="user-email" id="email">
-        </div>
+        <div class="user-email" id="email"></div>
     </div>
     <div class="menu-btn" onclick="toggleMenu()">☰</div>
 </div>
@@ -236,36 +264,41 @@ body{
     </div>
 
     <div class="cards">
-
         <div class="card">
             <div class="icon blue">💳</div>
-            <h2>0.00 USD</h2>
+            <h2 id="totalDeposit">0.00 USD</h2>
             <p>Total deposit</p>
         </div>
 
         <div class="card">
             <div class="icon pink">💲</div>
-            <h2>0.00 USD</h2>
+            <h2 id="totalWithdrawal">0.00 USD</h2>
             <p>Total withdraw</p>
         </div>
 
         <div class="card">
             <div class="icon green">📊</div>
-            <h2>0.00 USD</h2>
+            <h2 id="totalProfit">0.00 USD</h2>
             <p>Total payment</p>
         </div>
 
         <div class="card">
             <div class="icon orange">🎫</div>
-            <h2>0</h2>
+            <h2 id="supportTickets">0</h2>
             <p>Support ticket</p>
         </div>
-
     </div>
 
     <div class="balance">
         <h3>Total balance</h3>
-        <h1>0.00 USD</h1>
+        <h1 id="totalBalance">0.00 USD</h1>
+    </div>
+
+    <!-- Referral Section -->
+    <div class="referral">
+        <h3>Your Referral Link</h3>
+        <input type="text" id="referralLink" readonly>
+        <button onclick="copyReferral()">Copy</button>
     </div>
 
 </div>
@@ -279,20 +312,25 @@ body{
     </div>
 </div>
 
-
 <script>
 function toggleMenu(){
     document.getElementById("sidebar").classList.toggle("active");
 }
-</script>
 
-<script>
+// Copy referral link
+function copyReferral(){
+    const link = document.getElementById("referralLink");
+    link.select();
+    link.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(link.value);
+    alert("Referral link copied!");
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
-
     try {
         const res = await fetch("/api/current_user", {
             method: "GET",
-            credentials: "include"   // 🔥 VERY IMPORTANT
+            credentials: "include"
         });
 
         if (!res.ok) {
@@ -300,9 +338,22 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        const user = await res.json();
+        const data = await res.json();
 
-        document.getElementById("email").innerText = user.email;
+        // Shorten email to first 7 characters
+        const emailShort = data.email.length > 7 ? data.email.substring(0,7) + "..." : data.email;
+        document.getElementById("email").innerText = emailShort;
+
+        // Set dynamic values
+        document.getElementById("totalDeposit").textContent = `$${parseFloat(data.total_deposit).toFixed(2)}`;
+        document.getElementById("totalProfit").textContent = `$${parseFloat(data.total_profit).toFixed(2)}`;
+        document.getElementById("totalWithdrawal").textContent = `$${parseFloat(data.total_withdrawal).toFixed(2)}`;
+        document.getElementById("totalBalance").textContent = `$${parseFloat(data.total_balance).toFixed(2)}`;
+        document.getElementById("supportTickets").textContent = data.support_tickets || 0;
+
+        // Generate referral link
+        const referralUrl = `${window.location.origin}/register?ref=${data.referral_code}`;
+        document.getElementById("referralLink").value = referralUrl;
 
     } catch (error) {
         console.error(error);
@@ -310,8 +361,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 });
 </script>
-<script src="https://s3.tradingview.com/tv.js"></script>
 
+<script src="https://s3.tradingview.com/tv.js"></script>
 <script>
 new TradingView.widget({
   "container_id": "tradingview_chart",
