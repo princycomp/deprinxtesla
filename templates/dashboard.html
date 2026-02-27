@@ -262,38 +262,20 @@ function toggleMenu(){
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
 
-    const token = localStorage.getItem("access_token");
-
-    if (!token) {
-        window.location.href = "/login.html";
-        return;
-    }
-
     try {
         const res = await fetch("/api/current_user", {
             method: "GET",
-            headers: {
-                "Authorization": "Bearer " + token,
-                "Content-Type": "application/json"
-            }
+            credentials: "include"   // 🔥 VERY IMPORTANT
         });
 
         if (!res.ok) {
-            localStorage.removeItem("access_token");
             window.location.href = "/login.html";
             return;
         }
 
         const user = await res.json();
 
-        // Populate dashboard fields
-        document.getElementById("username").innerText = user.username;
         document.getElementById("email").innerText = user.email;
-        document.getElementById("total_balance").innerText = user.total_balance;
-        document.getElementById("btc_balance").innerText = user.btc_balance;
-        document.getElementById("eth_balance").innerText = user.eth_balance;
-        document.getElementById("usdt_trc_balance").innerText = user.usdt_trc_balance;
-        document.getElementById("usdt_erc_balance").innerText = user.usdt_erc_balance;
 
     } catch (error) {
         console.error(error);
