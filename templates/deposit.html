@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deposit - Tesla Finance</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins',sans-serif;background:#f4f6f9;}
+
+/* ================= NAVBAR ================= */
+.navbar{height:70px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 25px;box-shadow:0 2px 8px rgba(0,0,0,0.05);position:fixed;width:100%;top:0;z-index:1000;}
+.nav-left{display:flex;align-items:center;gap:15px;}
+.nav-left img{width:170px;}
+.user-email{background:#f1f3f7;padding:8px 15px;border-radius:6px;font-size:14px;color:#555;}
+.menu-btn{font-size:26px;cursor:pointer;}
+
+/* ================= SIDEBAR ================= */
+.sidebar{position:fixed;left:-260px;top:0;width:260px;height:100%;background:#fff;box-shadow:2px 0 12px rgba(0,0,0,0.08);padding:20px;transition:0.3s;z-index:2000;}
+.sidebar.active{left:0;}
+.sidebar img{width:160px;margin-bottom:30px;}
+.sidebar a{display:flex;align-items:center;gap:12px;padding:14px;margin-bottom:10px;border-radius:10px;text-decoration:none;color:#666;font-size:15px;transition:0.3s;}
+.sidebar a:hover{background:#f2f2f2;}
+.sidebar a.active{background:#ff0033;color:#fff;}
+
+/* ================= CONTENT ================= */
+.content{padding:110px 30px 40px 30px;}
+.deposit-step{background:#fff;padding:30px;border-radius:14px;box-shadow:0 5px 15px rgba(0,0,0,0.04);margin-bottom:25px;}
+.deposit-step h2{font-size:20px;font-weight:600;margin-bottom:15px;}
+.deposit-step .currency-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:15px;}
+.deposit-step button{display:flex;flex-direction:column;align-items:center;padding:15px;border-radius:12px;background:#f0f4ff;transition:0.3s;}
+.deposit-step button:hover{background:#dbe4ff;}
+.deposit-step button img{width:40px;height:40px;margin-bottom:8px;}
+.deposit-step button span{font-weight:500;text-align:center;font-size:14px;}
+#deposit-step-2 .flex{flex-direction:column;gap:20px;}
+#deposit-step-2 img{width:150px;height:150px;border:1px solid #ddd;padding:8px;border-radius:12px;}
+#deposit-step-3 input{width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;margin-bottom:15px;font-size:16px;}
+#deposit-step-3 button{width:100%;background:#2b7bff;color:#fff;padding:12px;border-radius:8px;font-size:16px;}
+@media(max-width:768px){.nav-left img{width:130px;}}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <img src="static/images/dark_logo.png">
+    <a href="/dashboard.html">🏠 Dashboard</a>
+    <a href="#">📊 All signal</a>
+    <a href="#">📈 Trade</a>
+    <a href="#">📦 Plans</a>
+    <a href="#" class="active">💳 Deposit now</a>
+    <a href="#">💵 Withdraw</a>
+    <a href="#">🔁 Transfer money</a>
+    <a href="#">📑 Report</a>
+</div>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="nav-left">
+        <img src="static/images/dark_logo.png">
+        <div class="user-email" id="email"></div>
+    </div>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+</div>
+
+<!-- Content -->
+<div class="content">
+
+    <div class="deposit-step" id="deposit-step-1">
+        <h2>Step 1: Choose Currency</h2>
+        <div class="currency-grid">
+            <button class="deposit-currency" data-currency="usdt_trc">
+                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tether.svg" alt="USDT TRC20">
+                <span>USDT (TRC20)</span>
+            </button>
+            <button class="deposit-currency" data-currency="usdt_erc">
+                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tether.svg" alt="USDT ERC20">
+                <span>USDT (ERC20)</span>
+            </button>
+            <button class="deposit-currency" data-currency="btc">
+                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/bitcoin.svg" alt="BTC">
+                <span>Bitcoin</span>
+            </button>
+            <button class="deposit-currency" data-currency="eth">
+                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/ethereum.svg" alt="ETH">
+                <span>Ethereum</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="deposit-step hidden" id="deposit-step-2">
+        <h2>Step 2: Send Funds</h2>
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="font-medium">Deposit Address:</p>
+                <p id="deposit-address" class="text-blue-700 font-mono break-all"></p>
+                <button id="copy-address" class="mt-2 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Copy</button>
+            </div>
+            <img id="deposit-qr" src="" alt="QR Code">
+        </div>
+        <p class="mt-4 text-gray-600">Send the exact amount to the address. Make sure the network and currency match.</p>
+    </div>
+
+    <div class="deposit-step hidden" id="deposit-step-3">
+        <h2>Step 3: Enter Amount</h2>
+        <input type="number" id="deposit-amount" placeholder="Enter amount to deposit">
+        <button id="submit-deposit">Submit Deposit</button>
+    </div>
+
+</div>
+
+<script>
+function toggleMenu(){
+    document.getElementById("sidebar").classList.toggle("active");
+}
+
+// Copy deposit address
+document.getElementById('copy-address').addEventListener('click', () => {
+    navigator.clipboard.writeText(document.getElementById('deposit-address').textContent)
+        .then(()=>alert('Address copied to clipboard!'));
+});
+
+let selectedCurrency = null;
+document.querySelectorAll('.deposit-currency').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+        selectedCurrency = btn.dataset.currency;
+        fetchDepositAddress(selectedCurrency);
+    });
+});
+
+function fetchDepositAddress(currency){
+    const addresses = {
+        'usdt_trc': { address: 'TXYZTRC20ADDRESS123', qr: '/static/qr_usdt_trc.png' },
+        'usdt_erc': { address: '0xUSDTERC20ADDRESS456', qr: '/static/qr_usdt_erc.png' },
+        'btc': { address: '1BTCADDRESS789', qr: '/static/qr_btc.png' },
+        'eth': { address: '0xETHADDRESS012', qr: '/static/qr_eth.png' }
+    };
+    const data = addresses[currency];
+    document.getElementById('deposit-address').textContent = data.address;
+    document.getElementById('deposit-qr').src = data.qr;
+    document.getElementById('deposit-step-2').classList.remove('hidden');
+    document.getElementById('deposit-step-3').classList.remove('hidden');
+}
+
+document.getElementById('submit-deposit').addEventListener('click', async ()=>{
+    const amount = document.getElementById('deposit-amount').value;
+    if(!selectedCurrency || !amount) return alert('Select currency and enter amount');
+    try{
+        const res = await axios.post('/api/deposit',{currency:selectedCurrency, amount});
+        alert(res.data.message);
+    }catch(err){
+        alert(err.response?.data?.message || 'Error submitting deposit');
+    }
+});
+
+// Load current user info
+document.addEventListener("DOMContentLoaded", async () => {
+    try{
+        const res = await fetch("/api/current_user",{method:"GET",credentials:"include"});
+        if(!res.ok){window.location.href="/login.html"; return;}
+        const data = await res.json();
+        const emailShort = data.email.length>7 ? data.email.substring(0,7)+"..." : data.email;
+        document.getElementById("email").innerText = emailShort;
+    }catch(e){console.error(e);window.location.href="/login.html";}
+});
+</script>
+
+</body>
+</html>
