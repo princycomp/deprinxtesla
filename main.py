@@ -541,8 +541,8 @@ def withdraw():
 
     new_balance = float(user_data[balance_key]) - amount
     new_total_balance = float(user_data['total_balance']) - amount
-    app.mongo.db.users_emporion.update_one({"_id": ObjectId(user_id)}, {"$set": {balance_key: new_balance}})
-    app.mongo.db.users_emporion.update_one({"_id": ObjectId(user_id)}, {"$set": {'total_balance': new_total_balance}})
+    app.mongo.db.users_teslaproinvestment.update_one({"_id": ObjectId(user_id)}, {"$set": {balance_key: new_balance}})
+    app.mongo.db.users_teslaproinvestment.update_one({"_id": ObjectId(user_id)}, {"$set": {'total_balance': new_total_balance}})
 
     transaction_data = {
         'user_id': user_id,
