@@ -108,7 +108,7 @@ def dashboardhtml():
     return render_template("dashboard.html")
 
 
-@app.route("/profile")
+@app.route("/profile.html")
 def profilehtml():
     return render_template("profile.html")
 
