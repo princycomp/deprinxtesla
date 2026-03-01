@@ -62,7 +62,7 @@ class User:
         self.total_withdrawal = user_data.get('total_withdrawal', 0)
         self.total_profit = user_data.get('total_profit', 0)
         self.total_balance = user_data.get('total_balance', 0)
-        self.referral_link = user_data.get('referral_link', f'teslaproinvestmentplatform.com/ref/{self.username}')
+        self.referral_link = user_data.get('referral_link', f'teslainvestmentplatform.com/ref/{self.username}')
         self.is_verified = user_data.get('is_verified', False)
 
 
@@ -212,7 +212,7 @@ def register():
             return jsonify({'message': 'User already exists. Please login.'}), 400
 
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        referral_link = f'https://teslaproinvestmentplatform.com/ref/{form.username.data}'
+        referral_link = f'https://teslainvestmentplatform.com/ref/{form.username.data}'
         user_data = {
             "username": form.username.data,
             "email": form.email.data,
@@ -234,7 +234,7 @@ def register():
         app.mongo.db.users_teslaproinvestment.insert_one(user_data)
 
         token = serializer.dumps(form.email.data, salt='email-confirm')
-        confirm_url = f'https://teslaproinvestmentplatform.com/api/confirm_email?token={token}'
+        confirm_url = f'https://teslainvestmentplatform.com/api/confirm_email?token={token}'
 
         html = render_template('email_verification.html', confirm_url=confirm_url, whatsapp=form.whatsapp.data)
         subject = "Please confirm your email"
@@ -261,7 +261,7 @@ def resend_email():
 
     token = serializer.dumps(email, salt='email-confirm')
 
-    confirm_url = f'https://teslaproinvestmentplatform.com/api/confirm_email?token={token}'
+    confirm_url = f'https://teslainvestmentplatform.com/api/confirm_email?token={token}'
 
     html = render_template('email_verification.html', confirm_url=confirm_url)
     subject = "Please confirm your email"
