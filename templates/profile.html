@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
         document.getElementById("email").innerText = shortEmail;
 
         document.getElementById("profile-email").innerText = user.email;
-        document.getElementById("profile-referral").innerText = user.referral_code || "N/A";
+        document.getElementById("profile-referral").innerText = user.referral_link || "N/A";
         document.getElementById("profile-balance").innerText = parseFloat(user.total_balance||0).toFixed(2);
         document.getElementById("profile-deposit").innerText = parseFloat(user.total_deposit||0).toFixed(2);
         document.getElementById("profile-withdraw").innerText = parseFloat(user.total_withdrawal||0).toFixed(2);
