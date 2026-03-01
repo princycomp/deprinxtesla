@@ -112,6 +112,11 @@ def dashboardhtml():
 def profilehtml():
     return render_template("profile.html")
 
+@app.route("/trade.html")
+def tradehtml():
+    return render_template("trade.html")
+
+
 
 @app.route('/admin/dashboard')
 def admin_dashboard():
