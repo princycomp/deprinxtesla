@@ -508,12 +508,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         /* ========= Generate Referral Link ========= */
         if (user.referral_code) {
-            const referralLink =
-                `${window.location.origin}/register?ref=${user.referral_code}`;
+            const referralUrl =
+                `${window.location.origin}/register?ref=${data.referral_code}`;
 
-            const referralInput = document.getElementById("referralLink");
+            const referralInput = document.getElementById("referralUrl");
             if (referralInput) {
-                referralInput.value = referralLink;
+                referralInput.value = referralUrl;
             }
         }
 
