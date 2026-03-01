@@ -366,3 +366,99 @@
         gap:15px;
     }
 }
+
+/* INVESTMENT PLANS SECTION */
+.investment-plans {
+    background: #f4f4f4;
+    padding: 80px 20px;
+}
+
+.investment-plans h2 {
+    text-align: center;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: #1a1a1a;
+}
+
+.plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.plan-card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 30px 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(232,33,39,0.3);
+}
+
+.plan-card h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #2c2c2c;
+}
+
+.plan-card p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.plan-card .min-amount {
+    font-size: 14px;
+    color: #999;
+}
+
+/* CTA BUTTON */
+.investment-plans .cta-btn {
+    display: inline-block;
+    margin: 40px auto 0 auto;
+    background: #ef4b52;
+    color: #fff;
+    padding: 18px 50px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    transition: 0.3s ease;
+}
+
+.investment-plans .cta-btn:hover {
+    background: #d83b42;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(239,75,82,0.4);
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .investment-plans h2 {
+        font-size: 28px;
+        margin-bottom: 30px;
+    }
+
+    .plan-card h3 {
+        font-size: 20px;
+    }
+
+    .plan-card p {
+        font-size: 16px;
+    }
+
+    .investment-plans .cta-btn {
+        padding: 15px 40px;
+        font-size: 16px;
+    }
+}
