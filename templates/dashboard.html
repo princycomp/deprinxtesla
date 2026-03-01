@@ -230,6 +230,111 @@ body{
         width:130px;
     }
 }
+
+    /* ===== WALLET SECTION ===== */
+
+.wallet-box{
+    margin-top:35px;
+    background:#fff;
+    padding:30px;
+    border-radius:14px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.04);
+}
+
+.wallet-title{
+    font-size:16px;
+    color:#777;
+    margin-bottom:8px;
+}
+
+.wallet-amount{
+    font-size:32px;
+    font-weight:700;
+    margin-bottom:20px;
+}
+
+.wallet-actions{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.btn{
+    padding:10px 20px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:500;
+    color:#fff;
+}
+
+.withdraw-btn{
+    background:#ff4b4b;
+}
+
+.deposit-btn{
+    background:#1db954;
+}
+
+.view-transactions{
+    display:block;
+    background:#ff0033;
+    color:#fff;
+    padding:12px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:14px;
+}
+
+/* ===== ANALYTICS SECTION ===== */
+
+.analytics-box{
+    margin-top:25px;
+    background:#fff;
+    padding:30px;
+    border-radius:14px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.04);
+}
+
+.analytics-bar{
+    width:10px;
+    height:50px;
+    background:#111;
+    margin:0 auto 15px auto;
+}
+
+.analytics-box h2{
+    font-size:22px;
+    margin-bottom:5px;
+}
+
+.analytics-box h3{
+    font-size:26px;
+    color:#999;
+}
+
+.legend{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin-top:20px;
+    font-size:13px;
+}
+
+.dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    display:inline-block;
+    margin-right:6px;
+}
+
+.purple{ background:#6f42c1; }
+.red{ background:#ff4b4b; }
+.green{ background:#1db954; }
 </style>
 </head>
 <body>
@@ -288,10 +393,31 @@ body{
         </div>
     </div>
 
-    <div class="balance">
-        <h3>Total balance</h3>
-        <h1 id="totalBalance">0.00 USD</h1>
+<div class="wallet-box">
+
+    <p class="wallet-title">Total balance</p>
+    <h1 class="wallet-amount" id="totalBalance">$0.00 USD</h1>
+
+    <div class="wallet-actions">
+        <a href="/withdraw.html" class="btn withdraw-btn">⛔ Withdraw</a>
+        <a href="/deposit.html" class="btn deposit-btn">➕ Deposit</a>
     </div>
+
+    <a href="#" class="view-transactions">🚀 View all transaction</a>
+
+</div>
+
+<div class="analytics-box">
+    <div class="analytics-bar"></div>
+    <h2>Total</h2>
+    <h3 id="accurateTotal">0.00</h3>
+
+    <div class="legend">
+        <span><span class="dot purple"></span> Payment</span>
+        <span><span class="dot red"></span> Withdraw</span>
+        <span><span class="dot green"></span> Deposit</span>
+    </div>
+</div>
 
     <!-- Referral Section -->
     <div class="referral">
@@ -395,6 +521,19 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
+<script>
+    const totalDeposit = parseFloat(data.total_deposit) || 0;
+const totalWithdrawal = parseFloat(data.total_withdrawal) || 0;
+const totalProfit = parseFloat(data.total_profit) || 0;
+const totalBalance = parseFloat(data.total_balance) || 0;
 
+document.getElementById("totalDeposit").textContent = `$${totalDeposit.toFixed(2)}`;
+document.getElementById("totalWithdrawal").textContent = `$${totalWithdrawal.toFixed(2)}`;
+document.getElementById("totalProfit").textContent = `$${totalProfit.toFixed(2)}`;
+document.getElementById("totalBalance").textContent = `$${totalBalance.toFixed(2)} USD`;
+
+// Accurate total section display
+document.getElementById("accurateTotal").textContent = totalBalance.toFixed(2);
+</script>
 </body>
 </html>
