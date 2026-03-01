@@ -424,7 +424,7 @@ body{
     <!-- Referral Section -->
     <div class="referral">
         <h3>Your Referral Link</h3>
-        <input type="text" id="referralLink" readonly>
+        <input type="text" id="referralUrl" readonly>
         <button onclick="copyReferral()">Copy</button>
     </div>
 
@@ -455,7 +455,7 @@ function toggleMenu() {
    Copy Referral Link
 ================================= */
 function copyReferral() {
-    const input = document.getElementById("referralLink");
+    const input = document.getElementById("referralUrl");
     if (!input) return;
 
     navigator.clipboard.writeText(input.value)
