@@ -438,50 +438,85 @@ body{
 </div>
 
 <script>
-function toggleMenu(){
-    document.getElementById("sidebar").classList.toggle("active");
+/* ===============================
+   Sidebar Toggle
+================================= */
+function toggleMenu() {
+    const sidebar = document.getElementById("sidebar");
+    if (sidebar) {
+        sidebar.classList.toggle("active");
+    }
 }
 
-// Copy referral link
-function copyReferral(){
-    const link = document.getElementById("referralLink");
-    link.select();
-    link.setSelectionRange(0, 99999);
-    navigator.clipboard.writeText(link.value);
-    alert("Referral link copied!");
+
+/* ===============================
+   Copy Referral Link
+================================= */
+function copyReferral() {
+    const input = document.getElementById("referralLink");
+    if (!input) return;
+
+    navigator.clipboard.writeText(input.value)
+        .then(() => alert("Referral link copied!"))
+        .catch(() => alert("Failed to copy link."));
 }
 
+
+/* ===============================
+   Load Current User Data
+================================= */
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        const res = await fetch("/api/current_user", {
+        const response = await fetch("/api/current_user", {
             method: "GET",
             credentials: "include"
         });
 
-        if (!res.ok) {
+        if (!response.ok) {
             window.location.href = "/login.html";
             return;
         }
 
-        const data = await res.json();
+        const user = await response.json();
 
-        // Shorten email to first 7 characters
-        const emailShort = data.email.length > 7 ? data.email.substring(0,7) + "..." : data.email;
-        document.getElementById("email").innerText = emailShort;
+        /* ========= Email Display ========= */
+        const emailElement = document.getElementById("email");
+        if (emailElement && user.email) {
+            const shortEmail =
+                user.email.length > 7
+                    ? user.email.substring(0, 7) + "..."
+                    : user.email;
 
-        // Set dynamic values
-        document.getElementById("totalDeposit").textContent = `$${parseFloat(data.total_deposit).toFixed(2)}`;
-        document.getElementById("totalProfit").textContent = `$${parseFloat(data.total_profit).toFixed(2)}`;
-        document.getElementById("totalWithdrawal").textContent = `$${parseFloat(data.total_withdrawal).toFixed(2)}`;
-        document.getElementById("totalBalance").textContent = `$${parseFloat(data.total_balance).toFixed(2)}`;
-        document.getElementById("supportTickets").textContent = data.support_tickets || 0;
+            emailElement.textContent = shortEmail;
+        }
 
-        // Generate referral link
-        const referralUrl = `${window.location.origin}/register?ref=${data.referral_code}`;
-        document.getElementById("referralLink").value = referralUrl;
+        /* ========= Safe Number Parsing ========= */
+        const totalDeposit = parseFloat(user.total_deposit) || 0;
+        const totalProfit = parseFloat(user.total_profit) || 0;
+        const totalWithdrawal = parseFloat(user.total_withdrawal) || 0;
+        const totalBalance = parseFloat(user.total_balance) || 0;
+        const supportTickets = user.support_tickets || 0;
+
+        /* ========= Update Dashboard ========= */
+        document.getElementById("totalDeposit").textContent = `$${totalDeposit.toFixed(2)} USD`;
+        document.getElementById("totalProfit").textContent = `$${totalProfit.toFixed(2)} USD`;
+        document.getElementById("totalWithdrawal").textContent = `$${totalWithdrawal.toFixed(2)} USD`;
+        document.getElementById("totalBalance").textContent = `$${totalBalance.toFixed(2)} USD`;
+        document.getElementById("supportTickets").textContent = supportTickets;
+
+        /* ========= Generate Referral Link ========= */
+        if (user.referral_code) {
+            const referralLink =
+                `${window.location.origin}/register?ref=${user.referral_code}`;
+
+            const referralInput = document.getElementById("referralLink");
+            if (referralInput) {
+                referralInput.value = referralLink;
+            }
+        }
 
     } catch (error) {
-        console.error(error);
+        console.error("User fetch error:", error);
         window.location.href = "/login.html";
     }
 });
@@ -522,18 +557,7 @@ s0.parentNode.insertBefore(s1,s0);
 </script>
 <!--End of Tawk.to Script-->
 <script>
-    const totalDeposit = parseFloat(data.total_deposit) || 0;
-const totalWithdrawal = parseFloat(data.total_withdrawal) || 0;
-const totalProfit = parseFloat(data.total_profit) || 0;
-const totalBalance = parseFloat(data.total_balance) || 0;
 
-document.getElementById("totalDeposit").textContent = `$${totalDeposit.toFixed(2)}`;
-document.getElementById("totalWithdrawal").textContent = `$${totalWithdrawal.toFixed(2)}`;
-document.getElementById("totalProfit").textContent = `$${totalProfit.toFixed(2)}`;
-document.getElementById("totalBalance").textContent = `$${totalBalance.toFixed(2)} USD`;
-
-// Accurate total section display
-document.getElementById("accurateTotal").textContent = totalBalance.toFixed(2);
 </script>
 </body>
 </html>
