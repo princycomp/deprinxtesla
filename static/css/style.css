@@ -509,18 +509,52 @@
     color:#111;
 }
 
-/* TABLE WRAPPER */
+/* Make table scrollable on small screens */
 .table-wrapper{
     background:#fff;
     border-radius:16px;
     box-shadow:0 20px 50px rgba(0,0,0,0.08);
-    overflow:hidden;
+    overflow-x:auto;          /* horizontal scroll */
+    overflow-y:hidden;
 }
 
-/* TABLE */
+/* Ensure table keeps width */
 .reports-table{
     width:100%;
+    min-width:900px;          /* Forces scroll on small devices */
     border-collapse:collapse;
+}
+
+/* Status badges */
+.status{
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+}
+
+.status.completed{
+    background:#28a745;
+    color:#fff;
+}
+
+.status.pending{
+    background:#ffc107;
+    color:#111;
+}
+
+/* Smooth scrollbar (optional modern look) */
+.table-wrapper::-webkit-scrollbar{
+    height:8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track{
+    background:#f1f1f1;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb{
+    background:#ccc;
+    border-radius:10px;
 }
 
 .reports-table thead{
