@@ -462,3 +462,99 @@
         font-size: 16px;
     }
 }
+
+/* REPORTS SECTION */
+.reports-section{
+    padding:100px 20px;
+    background:#f5f7fa;
+}
+
+.reports-container{
+    max-width:1100px;
+    margin:auto;
+}
+
+.reports-title{
+    text-align:center;
+    font-size:32px;
+    font-weight:600;
+    margin-bottom:50px;
+    color:#111;
+}
+
+/* TABLE WRAPPER */
+.table-wrapper{
+    background:#fff;
+    border-radius:16px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.08);
+    overflow:hidden;
+}
+
+/* TABLE */
+.reports-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.reports-table thead{
+    background:#111;
+    color:#fff;
+}
+
+.reports-table th{
+    padding:18px;
+    text-align:left;
+    font-weight:500;
+    font-size:14px;
+    letter-spacing:1px;
+}
+
+.reports-table td{
+    padding:18px;
+    border-bottom:1px solid #eee;
+    font-size:14px;
+    color:#444;
+}
+
+.reports-table tbody tr:hover{
+    background:#f9f9f9;
+    transition:0.3s;
+}
+
+/* AVATAR */
+.avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+/* PAYMENT BADGES */
+.badge{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+    color:#fff;
+}
+
+.btc{
+    background:#f7931a;
+}
+
+.eth{
+    background:#3c3c3d;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .reports-table th,
+    .reports-table td{
+        padding:12px;
+        font-size:12px;
+    }
+
+    .reports-title{
+        font-size:24px;
+    }
+}
