@@ -17,7 +17,6 @@ import logging
 from flask_cors import CORS
 from flask_jwt_extended import unset_jwt_cookies
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkdeEfBA6O6donzWlSihBXox7C0sKR6b'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
