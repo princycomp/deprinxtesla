@@ -34,7 +34,7 @@ app.config["JWT_COOKIE_SECURE"] = True  # True in production (HTTPS)
 app.config["JWT_COOKIE_CSRF_PROTECT"] = False  # disable for now
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=7)
 
-MONGO_URI = 'mongodb+srv://pblmtechnologyinnovation:Ok6Wiu6HqTorLOSu@computercloud.99whnwd.mongodb.net/?retryWrites=true&w=majority'
+MONGO_URI = 'mongodb+srv://replyfedexship_db_user:TCNSxMeie0Z5CwyO@cluster0.ixtuarj.mongodb.net/?retryWrites=true&w=majority'
 client = MongoClient(MONGO_URI)
 app.mongo = client.get_database("teslaproinvestment")
 bcrypt = Bcrypt(app)
